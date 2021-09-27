@@ -29,7 +29,7 @@ class Calculator:
         self.total_label, self.label = self.create_display_labels()
 
         self.buttons_frame = self.create_buttons_frame()
-        
+
         self.buttons_frame.rowconfigure(0, weight=1)
         for x in range(1, 5):
             self.buttons_frame.rowconfigure(x, weight=1)
@@ -94,7 +94,8 @@ class Calculator:
 
     def create_equals_button(self):
         button = tk.Button(self.buttons_frame, text="=",
-                           bg=EQUAL_BG, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0)
+                           bg=EQUAL_BG, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0,
+                           command=self.evaluate)
         button.grid(row=4, column=3, columnspan=2, sticky=tk.NSEW)
 
     def update_total_lebel(self):
@@ -119,6 +120,15 @@ class Calculator:
         self.total_expression = ""
         self.update_label()
         self.update_total_lebel()
+
+    def evaluate(self):
+        self.total_expression += self.current_expression
+        self.update_total_lebel()
+
+        self.current_expression = str(eval(self.total_expression))
+
+        self.total_expression = ""
+        self.update_label()
 
     def run(self):
         self.window.mainloop()
