@@ -49,6 +49,9 @@ class Calculator:
         self.create_clear_button()
         self.create_equals_button()
 
+        self.create_square_button()
+        self.create_sqrt_button()
+
     def create_display_frame(self):
         frame = tk.Frame(self.window, height=221, bg=LIGHT_GRAY)
         frame.pack(expand=True, fill='both')
@@ -90,13 +93,25 @@ class Calculator:
         button = tk.Button(self.buttons_frame, text="C",
                            bg=SYMBOLS_BG, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0,
                            command=self.clear)
-        button.grid(row=0, column=1, columnspan=3, sticky=tk.NSEW)
+        button.grid(row=0, column=1, columnspan=1, sticky=tk.NSEW)
 
     def create_equals_button(self):
         button = tk.Button(self.buttons_frame, text="=",
                            bg=EQUAL_BG, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0,
                            command=self.evaluate)
         button.grid(row=4, column=3, columnspan=2, sticky=tk.NSEW)
+
+    def create_square_button(self):
+        button = tk.Button(self.buttons_frame, text="x\u00b2",
+                           bg=EQUAL_BG, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0,
+                           command=self.square_button)
+        button.grid(row=0, column=2, sticky=tk.NSEW)
+
+    def create_sqrt_button(self):
+        button = tk.Button(self.buttons_frame, text="\u221ax",
+                           bg=EQUAL_BG, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0,
+                           command=self.sqrl_button)
+        button.grid(row=0, column=3, sticky=tk.NSEW)
 
     def update_total_lebel(self):
         self.total_label.config(text=self.total_expression)
@@ -128,6 +143,14 @@ class Calculator:
         self.current_expression = str(eval(self.total_expression))
 
         self.total_expression = ""
+        self.update_label()
+
+    def square_button(self):
+        self.current_expression = eval(f"{self.current_expression}**2")
+        self.update_label()
+
+    def sqrl_button(self):
+        self.current_expression = eval(f"{self.current_expression}**0.5")
         self.update_label()
 
     def run(self):
