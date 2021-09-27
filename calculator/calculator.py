@@ -81,13 +81,15 @@ class Calculator:
         i = 0
         for operator, symbol in self.operations.items():
             button = tk.Button(self.buttons_frame, text=symbol,
-                               bg=SYMBOLS_BG, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0)
+                               bg=SYMBOLS_BG, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0,
+                               command=lambda x=operator: self.append_operator(x))
             button.grid(row=i, column=4, sticky=tk.NSEW)
             i += 1
 
     def create_clear_button(self):
         button = tk.Button(self.buttons_frame, text="C",
-                           bg=SYMBOLS_BG, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0)
+                           bg=SYMBOLS_BG, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0,
+                           command=self.clear)
         button.grid(row=0, column=1, columnspan=3, sticky=tk.NSEW)
 
     def create_equals_button(self):
@@ -95,7 +97,7 @@ class Calculator:
                            bg=EQUAL_BG, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0)
         button.grid(row=4, column=3, columnspan=2, sticky=tk.NSEW)
 
-    def update_total_level(self):
+    def update_total_lebel(self):
         self.total_label.config(text=self.total_expression)
 
     def update_label(self):
@@ -104,6 +106,19 @@ class Calculator:
     def add_to_expression(self, value):
         self.current_expression += str(value)
         self.update_label()
+
+    def append_operator(self, operator):
+        self.current_expression += operator
+        self.total_expression += self.current_expression
+        self.current_expression = ""
+        self.update_total_lebel()
+        self.update_label()
+
+    def clear(self):
+        self.current_expression = ""
+        self.total_expression = ""
+        self.update_label()
+        self.update_total_lebel()
 
     def run(self):
         self.window.mainloop()
