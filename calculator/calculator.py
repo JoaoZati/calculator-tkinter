@@ -23,8 +23,8 @@ class Calculator:
         self.window.resizable(0, 0)
         self.window.title("Calculator")
 
-        self.total_expression = "0"
-        self.current_expression = "0"
+        self.total_expression = ""
+        self.current_expression = ""
         self.display_frame = self.create_display_frame()
         self.total_label, self.label = self.create_display_labels()
 
@@ -41,7 +41,7 @@ class Calculator:
             1: (3, 1), 2: (3, 2), 3: (3, 3),
             '.': (4, 1), 0: (4, 2),
         }
-        self.create_digit_bottons()
+        self.create_digit_buttons()
 
         self.operations = {"/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+"}
         self.create_operator_buttons()
@@ -70,10 +70,11 @@ class Calculator:
         frame.pack(expand=True, fill='both')
         return frame
 
-    def create_digit_bottons(self):
+    def create_digit_buttons(self):
         for digit, grid_value in self.digits.items():
             button = tk.Button(self.buttons_frame, text=str(digit),
-                               bg=BUTTON_BG, fg=LABEL_COLOR, font=DIGIT_FONT_STYLE, borderwidth=0)
+                               bg=BUTTON_BG, fg=LABEL_COLOR, font=DIGIT_FONT_STYLE, borderwidth=0,
+                               command=lambda x=digit: self.add_to_expression(x))
             button.grid(row=grid_value[0], column=grid_value[1], sticky=tk.NSEW)  # NSEW fill the entire cell
 
     def create_operator_buttons(self):
@@ -93,6 +94,16 @@ class Calculator:
         button = tk.Button(self.buttons_frame, text="=",
                            bg=EQUAL_BG, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE, borderwidth=0)
         button.grid(row=4, column=3, columnspan=2, sticky=tk.NSEW)
+
+    def update_total_level(self):
+        self.total_label.config(text=self.total_expression)
+
+    def update_label(self):
+        self.label.config(text=self.current_expression)
+
+    def add_to_expression(self, value):
+        self.current_expression += str(value)
+        self.update_label()
 
     def run(self):
         self.window.mainloop()
