@@ -114,7 +114,10 @@ class Calculator:
         button.grid(row=0, column=3, sticky=tk.NSEW)
 
     def update_total_lebel(self):
-        self.total_label.config(text=self.total_expression)
+        expression = self.total_expression
+        for operator, symbol in self.operations.items():
+            expression = expression.replace(operator, f'{symbol}')
+        self.total_label.config(text=expression)
 
     def update_label(self):
         self.label.config(text=self.current_expression)
