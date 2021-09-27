@@ -52,6 +52,8 @@ class Calculator:
         self.create_square_button()
         self.create_sqrt_button()
 
+        self.bind_keys()
+
     def create_display_frame(self):
         frame = tk.Frame(self.window, height=221, bg=LIGHT_GRAY)
         frame.pack(expand=True, fill='both')
@@ -159,6 +161,14 @@ class Calculator:
     def sqrl_button(self):
         self.current_expression = str(eval(f"{self.current_expression}**0.5"))
         self.update_label()
+
+    def bind_keys(self):
+        self.window.bind("<Return>", lambda event: self.evaluate())
+        for key in self.digits:
+            self.window.bind(str(key), lambda event, digit=key: self.add_to_expression(digit))
+
+        for key in self.operations:
+            self.window.bind(key, lambda event, operator=key: self.append_operator(operator))
 
     def run(self):
         self.window.mainloop()
