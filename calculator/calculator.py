@@ -146,11 +146,11 @@ class Calculator:
         self.update_label()
 
     def square_button(self):
-        self.current_expression = eval(f"{self.current_expression}**2")
+        self.current_expression = str(eval(f"{self.current_expression}**2"))
         self.update_label()
 
     def sqrl_button(self):
-        self.current_expression = eval(f"{self.current_expression}**0.5")
+        self.current_expression = str(eval(f"{self.current_expression}**0.5"))
         self.update_label()
 
     def run(self):
